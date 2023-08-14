@@ -11,7 +11,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
 
     [SerializeField] float moveSpeed = 7;
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     bool isWalking;
     Vector3 lastInteractDir;
 
-    ClearCounter selectedCounter;
+    BaseCounter selectedCounter;
 
 
     private void Awake()
@@ -78,9 +78,9 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         float interactDistance = 2;
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, countersLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                if (clearCounter != selectedCounter) SetSelectedCounter(clearCounter);
+                if (baseCounter != selectedCounter) SetSelectedCounter(baseCounter);
             }
             else SetSelectedCounter(null);
 
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             // Attempt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
             if (canMove)
                 // Can move only on X
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             {
                 // Can not move on X, attempt only Z movement
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
                     // Can move only on Z
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
 
 
-    void SetSelectedCounter(ClearCounter selectedCounter)
+    void SetSelectedCounter(BaseCounter selectedCounter)
     {
         this.selectedCounter = selectedCounter;
 
