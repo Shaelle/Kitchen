@@ -11,16 +11,10 @@ public class ContainerCounterVisual : MonoBehaviour
 
     Animator animator;
 
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
+    private void Awake() => animator = GetComponent<Animator>();
 
-
-    private void Start()
-    {
-        containerCounter.OnPlayerGrabbedObject += ContainerCounter_OnPlayerGrabbedObject;
-    }
+    private void Start() => containerCounter.OnPlayerGrabbedObject += ContainerCounter_OnPlayerGrabbedObject;
+    private void OnDestroy() => containerCounter.OnPlayerGrabbedObject -= ContainerCounter_OnPlayerGrabbedObject;
 
     private void ContainerCounter_OnPlayerGrabbedObject(object sender, System.EventArgs e)
     {
