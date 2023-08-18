@@ -23,6 +23,8 @@ public class DeliveryManager : MonoBehaviour
 
     int waitingRecipesMax = 4;
 
+    int succefulRecipesAmount;
+
 
     private void Awake()
     {
@@ -91,6 +93,8 @@ public class DeliveryManager : MonoBehaviour
                 {
                     //Player delivered the correct recipe!
 
+                    succefulRecipesAmount++;
+
                     waitingRecipeSOList.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
@@ -109,6 +113,12 @@ public class DeliveryManager : MonoBehaviour
     public List<RecipeSO> GetRecipeSOList()
     {
         return waitingRecipeSOList;
+    }
+
+
+    public int GetSuccesfulRecipesAmount()
+    {
+        return succefulRecipesAmount;
     }
 
 }
