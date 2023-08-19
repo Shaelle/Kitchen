@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundsManager : MonoBehaviour
 {
 
-    const string VolumeString = "SoundEffectsVolume";
+    const string VOLUME = "SoundEffectsVolume";
 
     public static SoundsManager Instance { get; private set; }
 
@@ -19,7 +19,7 @@ public class SoundsManager : MonoBehaviour
     {
         Instance = this;
 
-        volume = PlayerPrefs.GetFloat(VolumeString, 1);
+        volume = PlayerPrefs.GetFloat(VOLUME, 1);
     }
 
     private void Start()
@@ -114,7 +114,7 @@ public class SoundsManager : MonoBehaviour
 
         if (volume > 1) volume = 0;
 
-        PlayerPrefs.SetFloat(VolumeString, volume);
+        PlayerPrefs.SetFloat(VOLUME, volume);
         PlayerPrefs.Save();
     }
 
