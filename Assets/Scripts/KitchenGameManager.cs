@@ -24,7 +24,7 @@ public class KitchenGameManager : MonoBehaviour
     float waitingToStartTimer = 1;
     float countdownToStartTimer = 3;
     float gamePlayingTimer;
-    float gamePlayingTimerMax = 10;
+    [SerializeField, Min(1)] float gamePlayingTimerMax = 10;
 
     bool isGamePaused = false;
 
