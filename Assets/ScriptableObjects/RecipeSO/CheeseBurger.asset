@@ -17,3 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 853d730e14da85c4b85d2492080fb199, type: 2}
   - {fileID: 11400000, guid: 76ba057785f002545a657cbfcb4988a2, type: 2}
   _recipeName: CheeseBurger
+  <bonusTime>k__BackingField: 15

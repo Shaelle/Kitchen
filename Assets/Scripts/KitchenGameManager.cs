@@ -38,6 +38,8 @@ public class KitchenGameManager : MonoBehaviour
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        DeliveryManager.Instance.OnRecipeSuccess += OnDelivery;
     }
 
 
@@ -45,6 +47,16 @@ public class KitchenGameManager : MonoBehaviour
     {
         GameInput.Instance.OnPauseAction -= GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction -= GameInput_OnInteractAction;
+
+        DeliveryManager.Instance.OnRecipeSuccess -= OnDelivery;
+    }
+
+
+    private void OnDelivery(object sender, DeliveryManager.RecipeSuccessData e)
+    {
+        gamePlayingTimer += e.recipe.bonusTime;
+
+        if (gamePlayingTimer > gamePlayingTimerMax) gamePlayingTimerMax = gamePlayingTimer;
     }
 
 

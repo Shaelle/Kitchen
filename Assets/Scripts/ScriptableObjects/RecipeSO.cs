@@ -13,4 +13,6 @@ public class RecipeSO : ScriptableObject
     [SerializeField] string _recipeName;
     public string recipeName => _recipeName;
 
+    [field: SerializeField, Min(0)] public float bonusTime { get; private set; }
+
 }

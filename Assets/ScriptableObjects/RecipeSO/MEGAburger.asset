@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c957a233a9a8b74baf4d6c5968c767d, type: 2}
   - {fileID: 11400000, guid: 4363d455c8cbd554085b28a1fe48c338, type: 2}
   _recipeName: MEGAburger
+  <bonusTime>k__BackingField: 35

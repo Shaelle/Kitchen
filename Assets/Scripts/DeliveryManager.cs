@@ -9,14 +9,20 @@ public class DeliveryManager : MonoBehaviour
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
 
-    public event EventHandler OnRecipeSuccess;
+    public event EventHandler<RecipeSuccessData> OnRecipeSuccess;
+
+    public class RecipeSuccessData: EventArgs
+    {
+        public RecipeSO recipe;
+    }
+
     public event EventHandler OnRecipeFailed;
 
     public static DeliveryManager Instance { get; private set; }
 
     [SerializeField] RecipeListSO recipeListSO;
 
-    List<RecipeSO> waitingRecipeSOList;
+    List<RecipeSO> waitingRecipies;
 
     float spawnRecipeTimer;
     float spawnRecipeTimerMax = 4;
@@ -32,7 +38,7 @@ public class DeliveryManager : MonoBehaviour
         Instance = this;
 
 
-        waitingRecipeSOList = new List<RecipeSO>();
+        waitingRecipies = new List<RecipeSO>();
     }
 
     private void Update()
@@ -43,11 +49,11 @@ public class DeliveryManager : MonoBehaviour
         {
             spawnRecipeTimer = spawnRecipeTimerMax;
 
-            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipesMax)
+            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipies.Count < waitingRecipesMax)
             {
                 RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
 
-                waitingRecipeSOList.Add(waitingRecipeSO);
+                waitingRecipies.Add(waitingRecipeSO);
 
                 OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
             }
@@ -55,26 +61,26 @@ public class DeliveryManager : MonoBehaviour
     }
 
 
-    public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
+    public void DeliverRecipe(PlateKitchenObject plate)
     {
-        for (int i = 0; i < waitingRecipeSOList.Count; i++)
+        for (int i = 0; i < waitingRecipies.Count; i++)
         {
-            RecipeSO waitingrecipeSO = waitingRecipeSOList[i];
+            RecipeSO recipe = waitingRecipies[i];
 
-            if (waitingrecipeSO.kitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
+            if (recipe.kitchenObjectSOList.Count == plate.GetKitchenObjectSOList().Count)
             {
                 // Has same number of ingredients
                 bool plateContentMatchesRecipe = true;
 
-                foreach (KitchenObjectSO recipeKitchenObjectSO in waitingrecipeSO.kitchenObjectSOList)
+                foreach (KitchenObjectSO recipeItem in recipe.kitchenObjectSOList)
                 {
                     // Cycling through all ingredients in the recipe
                     bool ingredientFound = false;
 
-                    foreach (KitchenObjectSO plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
+                    foreach (KitchenObjectSO plateItem in plate.GetKitchenObjectSOList())
                     {
                         // Cycling through all ingredients in the plate
-                        if (recipeKitchenObjectSO == plateKitchenObjectSO)
+                        if (recipeItem == plateItem)
                         {
                             // Ingredient matches!
                             ingredientFound = true;
@@ -95,10 +101,10 @@ public class DeliveryManager : MonoBehaviour
 
                     succefulRecipesAmount++;
 
-                    waitingRecipeSOList.RemoveAt(i);
+                    waitingRecipies.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+                    OnRecipeSuccess?.Invoke(this, new RecipeSuccessData { recipe = recipe });
                     return;
                 }
             }
@@ -112,7 +118,7 @@ public class DeliveryManager : MonoBehaviour
 
     public List<RecipeSO> GetRecipeSOList()
     {
-        return waitingRecipeSOList;
+        return waitingRecipies;
     }
 
 
