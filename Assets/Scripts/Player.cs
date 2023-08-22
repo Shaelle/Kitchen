@@ -110,6 +110,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     void HandleMovement()
     {
+        if (KitchenGameManager.Instance.isGamePaused) return;
+
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);

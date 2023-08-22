@@ -34,6 +34,9 @@ public class StoveCounterSound : MonoBehaviour
 
     private void Update()
     {
+
+        if (KitchenGameManager.Instance.isGamePaused) return;
+
         if (playWarningSound)
         {
             warningSoundTimer -= Time.deltaTime;

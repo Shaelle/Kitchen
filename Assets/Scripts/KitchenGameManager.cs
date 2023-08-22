@@ -25,7 +25,7 @@ public class KitchenGameManager : MonoBehaviour
     float gamePlayingTimer;
     [SerializeField, Min(1)] float gamePlayingTimerMax = 10;
 
-    bool isGamePaused = false;
+    public bool isGamePaused { get; private set; } = false;
 
 
     private void Awake()
@@ -78,6 +78,9 @@ public class KitchenGameManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (isGamePaused) return;
+
         switch (state)
         {
             case State.WaitingToStart:
@@ -144,13 +147,13 @@ public class KitchenGameManager : MonoBehaviour
 
         if (isGamePaused)
         {
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
 
             OnGamePaused?.Invoke(this, EventArgs.Empty);
         }
         else
         {
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
 
             OnGameUnpaused?.Invoke(this, EventArgs.Empty);
         }

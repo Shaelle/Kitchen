@@ -18,6 +18,8 @@ public class PlayerSounds : MonoBehaviour
 
     private void Update()
     {
+        if (KitchenGameManager.Instance.isGamePaused) return;
+
         footstepTimer -= Time.deltaTime;
 
         if (footstepTimer < 0)
@@ -30,5 +32,6 @@ public class PlayerSounds : MonoBehaviour
                 SoundsManager.Instance.PlayFootstepSound(player.transform.position, volume);
             }
         }
+
     }
 }

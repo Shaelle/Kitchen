@@ -16,4 +16,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8fe60a438d0bdfd4b9f255113bfd6929, type: 2}
   - {fileID: 11400000, guid: 853d730e14da85c4b85d2492080fb199, type: 2}
   _recipeName: Burger
-  <bonusTime>k__BackingField: 8
+  <bonusTime>k__BackingField: 10

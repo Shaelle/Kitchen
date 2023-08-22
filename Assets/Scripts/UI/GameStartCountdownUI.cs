@@ -23,6 +23,9 @@ public class GameStartCountdownUI : MonoBehaviour
     {
         KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
 
+        KitchenGameManager.Instance.OnGamePaused += OnPause;
+        KitchenGameManager.Instance.OnGameUnpaused += OnUnpause;
+
         Hide();
     }
 
@@ -30,7 +33,15 @@ public class GameStartCountdownUI : MonoBehaviour
     private void OnDestroy()
     {
         KitchenGameManager.Instance.OnStateChanged -= KitchenGameManager_OnStateChanged;
+
+        KitchenGameManager.Instance.OnGamePaused -= OnPause;
+        KitchenGameManager.Instance.OnGameUnpaused -= OnUnpause;
     }
+
+
+    private void OnUnpause(object sender, System.EventArgs e) => animator.speed = 1;
+
+    private void OnPause(object sender, System.EventArgs e) => animator.speed = 0;
 
 
     private void Update()

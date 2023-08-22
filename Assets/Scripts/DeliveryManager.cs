@@ -43,6 +43,8 @@ public class DeliveryManager : MonoBehaviour
 
     private void Update()
     {
+        if (KitchenGameManager.Instance.isGamePaused) return;
+
         spawnRecipeTimer -= Time.deltaTime;
 
         if (spawnRecipeTimer <= 0)

@@ -18,6 +18,9 @@ public class PlatesCounter : BaseCounter
 
     private void Update()
     {
+
+        if (KitchenGameManager.Instance.isGamePaused) return;
+
         spawnPlateTimer += Time.deltaTime;
         if (spawnPlateTimer > spawnTimerMax)
         {
